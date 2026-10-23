@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img">
+  <rect width="1024" height="1024" fill="#ffffff"/>
+  <path d="M 200 820 L 700 320" fill="none" stroke="#000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/><path d="M 300 830 L 760 380" fill="none" stroke="#000" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/><polygon points="760,110 796.4426856421334,209.84094634875325 902.658477444273,213.6474508437579 818.9655040102995,279.1590536512467 848.167787843871,381.3525491562421 760,322 671.832212156129,381.3525491562421 701.0344959897005,279.1590536512467 617.341522555727,213.64745084375784 723.5573143578666,209.84094634875328" fill="#000" stroke="none" stroke-width="0" stroke-linejoin="round"/>
+</svg>
