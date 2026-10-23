@@ -10,7 +10,7 @@ import cairosvg
 from PIL import Image, ImageDraw
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PUB = os.path.join(ROOT, "public")
+PUB = os.path.join(ROOT, "docs")
 manifest = json.load(open(os.path.join(PUB, "data", "cards.json"), encoding="utf-8"))
 cards = manifest["cards"]
 

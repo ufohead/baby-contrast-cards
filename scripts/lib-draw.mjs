@@ -116,3 +116,45 @@ export const eyeOpen = (cx, cy, r = 46) =>
   circle(cx, cy, r, { fill: '#fff', sw: 24 }) + dot(cx, cy, r * 0.42);
 export const eyeClosed = (cx, cy, r = 52, up = true) =>
   path(arcPath(cx, cy, r, up ? 200 : 340, up ? 340 : 20), { sw: 26 });
+
+/* ---------------------------------------------------------------- 聯集外框 */
+/** 將多個圓的聯集外緣算成平滑封閉路徑（雲朵、羊毛、樹冠用） */
+export function blobPath(circles, { baseline = null, samples = 360, cx = null, cy = null } = {}) {
+  const ox = cx ?? circles.reduce((s, c) => s + c[0], 0) / circles.length;
+  const oy = cy ?? circles.reduce((s, c) => s + c[1], 0) / circles.length;
+  const pts = [];
+  for (let i = 0; i < samples; i++) {
+    const a = (i / samples) * Math.PI * 2;
+    const dx = Math.cos(a);
+    const dy = Math.sin(a);
+    let best = 0;
+    for (const [ccx, ccy, r] of circles) {
+      const ex = ccx - ox;
+      const ey = ccy - oy;
+      const proj = ex * dx + ey * dy;
+      const disc = r * r - (ex * ex + ey * ey) + proj * proj;
+      if (disc < 0) continue;
+      const t = proj + Math.sqrt(disc);
+      if (t > best) best = t;
+    }
+    pts.push([ox + best * dx, oy + best * dy]);
+  }
+  if (baseline !== null) for (const p of pts) if (p[1] > baseline) p[1] = baseline;
+  return catmullRom(pts, true);
+}
+
+/** Catmull-Rom 轉三次貝茲曲線，讓折線外框變平滑 */
+export function catmullRom(pts, closed = false) {
+  const n = pts.length;
+  if (n < 3) return toPath(pts, closed);
+  const at = (i) => pts[closed ? (i + n) % n : Math.max(0, Math.min(n - 1, i))];
+  let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  const last = closed ? n : n - 1;
+  for (let i = 0; i < last; i++) {
+    const p0 = at(i - 1), p1 = at(i), p2 = at(i + 1), p3 = at(i + 2);
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += ` C ${c1[0].toFixed(1)} ${c1[1].toFixed(1)}, ${c2[0].toFixed(1)} ${c2[1].toFixed(1)}, ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  return d + (closed ? ' Z' : '');
+}

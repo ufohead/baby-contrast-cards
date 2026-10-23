@@ -7,7 +7,7 @@ import { SIZE } from './lib-draw.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const OUT = path.join(ROOT, 'public');
+const OUT = path.join(ROOT, 'docs');
 
 const AGE_LABEL = { '0-2': '0-2 個月', '2-4': '2-4 個月', '3-6': '3-6 個月' };
 
@@ -56,5 +56,5 @@ for (const theme of THEMES) {
 fs.mkdirSync(path.join(OUT, 'data'), { recursive: true });
 fs.writeFileSync(path.join(OUT, 'data', 'cards.json'), JSON.stringify({ generated: new Date().toISOString(), total: cards.length, themes: THEMES.map((t) => ({ slug: t.slug, label: t.label, desc: t.desc, ageNote: t.ageNote, count: t.cards.length })), cards }, null, 0), 'utf8');
 
-console.log(`✅ 產生 ${cards.length} 張 SVG → public/cards/`);
-console.log(`📄 manifest → public/data/cards.json`);
+console.log(`✅ 產生 ${cards.length} 張 SVG → docs/cards/`);
+console.log(`📄 manifest → docs/data/cards.json`);

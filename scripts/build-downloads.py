@@ -8,7 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from PIL import Image, ImageDraw
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PUB = os.path.join(ROOT, "public")
+PUB = os.path.join(ROOT, "docs")
 DL = os.path.join(PUB, "downloads")
 os.makedirs(DL, exist_ok=True)
 
@@ -128,6 +128,6 @@ for j in jobs:
 total = 0
 for f in sorted(os.listdir(DL)):
     total += os.path.getsize(os.path.join(DL, f))
-print(f"✅ 下載包完成：{len(os.listdir(DL))} 個檔案，共 {total / 1024 / 1024:.1f} MB → public/downloads/")
+print(f"✅ 下載包完成：{len(os.listdir(DL))} 個檔案，共 {total / 1024 / 1024:.1f} MB → docs/downloads/")
 for f in sorted(os.listdir(DL)):
     print(f"   - {f}  ({os.path.getsize(os.path.join(DL, f)) / 1024 / 1024:.2f} MB)")
